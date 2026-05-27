@@ -2,7 +2,7 @@ const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
-
+        //#swagger.tags = ['Books']
     const result = await mongodb.getDb().collection('books').find();
     result.toArray().then((books) => {
         res.setHeader('Content-Type', 'application/json');
@@ -11,6 +11,7 @@ const getAll = async (req, res) => {
 };
 
 const getSingleBook = async (req, res) => {
+     //#swagger.tags = ['Books']
     const bookId = new ObjectId(req.params.id);
     const result = await mongodb.getDb().collection('books').find({ _id: bookId });
     result.toArray().then((books) => {
@@ -20,7 +21,8 @@ const getSingleBook = async (req, res) => {
 }
 
 const addBook = async (req, res) => {
-    const user = {
+    //#swagger.tags = ['Books']
+    const book = {
         title: req.body.title,
         author: req.body.author,
         genre: req.body.genre,
@@ -39,13 +41,13 @@ const addBook = async (req, res) => {
 const updateBook = async (req, res) => {
     //#swagger.tags = ['Books']
     const bookId = new ObjectId(req.params.id);
-    const user = {
+    const book = {
         title: req.body.title,
         author: req.body.author,
         genre: req.body.genre,
         publishedYear: req.body.publishedYear
     };
-    const response = await mongodb.getDb().collection('books').replaceOne({ _id: userId }, user);
+    const response = await mongodb.getDb().collection('books').replaceOne({ _id: bookId }, book);
     if (response.modifiedCount > 0) {
         res.status(204).send();
     } else {
@@ -55,6 +57,7 @@ const updateBook = async (req, res) => {
 
 
 const deleteBook = async (req, res) => {
+    //#swagger.tags = ['Books']
     const bookId = new ObjectId(req.params.id);
     const response = await mongodb.getDb().collection('books').deleteOne({ _id: bookId });
     if (response.deletedCount > 0) {
