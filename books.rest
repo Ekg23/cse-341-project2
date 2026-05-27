@@ -1,0 +1,32 @@
+### Get all books
+GET http://localhost:3000/books
+
+### Get one book
+GET http://localhost:3000/books/6650b2f3c1a9d11a8f100005
+
+
+### Create book
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+  "title": "Example Book",
+  "author": "John Doe",
+  "genre": "Fiction",
+  "publishedYear": "2010"
+}
+
+### Update book
+PUT http://localhost:3000/books/6650b2f3c1a9d11a8f100005
+Content-Type: application/json
+
+{
+  "title": "Updated Book",
+  "author": "Jane Doe",
+  "genre": "Mystery",
+  "publishedYear": "2005"
+}
+
+### Delete book
+DELETE http://localhost:3000/books/6650b2f3c1a9d11a8f100005
+  
