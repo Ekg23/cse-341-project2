@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const passport = require('passport');
 
 router.use('/', require('./swagger'));// Swagger documentation route
 
@@ -10,4 +11,13 @@ router.get('/', (req, res) => {
 router.use('/books', require('./books'));
 router.use('/users', require('./users'));   
 
-module.exports = router;
+router.get('/login', passport.authenticate('github'), (req, res) => {}); // GitHub login route
+
+router.get('/logout', function (req, res, next) {
+    req.logout(function (err) {
+        if (err) { return next(err); }
+        res.redirect('/')
+    });
+});
+
+module.exports = router;  
