@@ -1,9 +1,8 @@
-const authenticate = (req, res, next) => {
-    if (req.session.user) {
-        next();
-    } else {
-        res.status(401).json("You do not have access to this resource");
+const isAuthenticate = (req, res, next) => {
+    if (req.session.user === undefined) {
+        return res.status(401).json("You do not have access to this resource");
     }
+    next();
 };
 
-module.exports = authenticate;
+module.exports = isAuthenticate;

@@ -16,8 +16,18 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 
+        'Origin, X-Requested-With, Content-Type, Accept, Z-Key'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+});
 
 app.use(cors({ methods: ['GET', 'POST', 'PUT', 'DELETE', 'UPDATE', 'PATCH'] }));
 app.use(cors({ origin: '*' }));
@@ -41,26 +51,18 @@ passport.deserializeUser((user, done) => {
 });
 
 
+
+
 app.get('/', (req, res) => {
-    res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}` : "Logged out")
+    res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.username}` : "Logged out")
 });
 
-app.get('/auth/github/callback', passport.authenticate('github', {
-    failureRedirect: '/api-docs'}),
+app.get('/github/callback', passport.authenticate('github', {
+    failureRedirect: '/api-docs', session: false}),
     (req, res) => {
     req.session.user = req.user;
     res.redirect('/');
 });
-
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 
-        'Origin, X-Requested-With, Content-Type, Accept, Z-Key'
-    );
-    res.setHeader('Access-Control-Allow-Headers', 'GET, POST, PUT, DELETE, OPTIONS');
-    next();
-});
-
 
 
 
