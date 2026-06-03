@@ -6,7 +6,15 @@ const doc = {
         description: 'API for CSE 341 Project 2'
     },
     host: 'localhost:3000',
-    schemes: ['http', 'https']
+    schemes: ['http', 'https'],
+    securityDefinitions: {
+        githubAuth: {
+            type: 'oauth2',
+            authorizationUrl: 'https://github.com/login/oauth/authorize',
+            tokenUrl: 'https://github.com/login/oauth/access_token',
+            scopes: ['user:username']
+        }
+    }
 };
 
 const outputFile = './swagger.json'; // Output file for the generated Swagger documentation
